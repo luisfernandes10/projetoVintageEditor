@@ -21,4 +21,17 @@ class Filters {
         else
             return Math.min(tone - r, 255);
     }
+
+    static int posterize(int tone) {
+        if (tone <= 50)
+            return 0;
+        else if (tone <= 100)
+            return 100;
+        else if (tone <= 150)
+            return 150;
+        else if (tone <= 200)
+            return 200;
+        else
+            return 255;
+    }
 }

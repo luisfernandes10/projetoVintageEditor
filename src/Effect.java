@@ -43,4 +43,30 @@ class Effect {
                 image[x][y] *= fator;
             }
     }
+
+    static void blur(int[][] image, int ray) {
+        int[][] newImg = new int[image.length][image[0].length];
+        int sum = 0;
+        int count = 0;
+
+        for (int i = 0; i < image.length; i++)
+            for (int j = 0; j < image[0].length; j++) {
+                // view each pos
+                sum = 0;
+                count = 0;
+                for (int lines = i - ray; lines <= i + ray; lines++) {
+                    for (int cols = j - ray; cols <= j + ray; cols++) {
+                        if (lines >= 0 && lines < image.length && cols >= 0 && cols < image[i].length) {
+                            sum += image[lines][cols];
+                            count++;
+                        }
+                    }
+                }
+                newImg[i][j] = sum / count;
+            }
+
+        for (int i = 0; i < image.length; i++)
+            for (int j = 0; j < image[0].length; j++)
+                image[i][j] = newImg[i][j];
+    }
 }
