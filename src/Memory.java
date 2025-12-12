@@ -3,7 +3,10 @@ import pt.iscte.greyditor.Selection;
 
 class Memory {
     int[][] clipboard;
-    int[][][] history = new int[5][][];
+
+    final int MAX_SAVES = 20;
+    int[][][] history = new int[MAX_SAVES][][];
+
     boolean cut = false;
     int iter = 0;
     int count = 0;
@@ -57,13 +60,13 @@ class Memory {
     }
 
     void saveCurrent(int[][] image) {
-        history[iter % 5] = new int[image.length][image[0].length];
+        history[iter % MAX_SAVES] = new int[image.length][image[0].length];
 
         for (int i = 0; i < image.length; i++)
             for (int j = 0; j < image[0].length; j++)
-                history[iter % 5][i][j] = image[i][j];
-        iter = (iter + 1) % 5;
-        if (count < 5)
+                history[iter % MAX_SAVES][i][j] = image[i][j];
+        iter = (iter + 1) % MAX_SAVES;
+        if (count < MAX_SAVES)
             count++;
     }
 
@@ -71,7 +74,7 @@ class Memory {
         if (count == 0)
             editor.message("No more images on memory");
         else {
-            iter = (iter - 1 + 5) % 5;
+            iter = (iter - 1 + MAX_SAVES) % MAX_SAVES;
             for (int i = 0; i < image.length; i++)
                 for (int j = 0; j < image[0].length; j++)
                     image[i][j] = history[iter][i][j];
